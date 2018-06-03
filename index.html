@@ -1,0 +1,44 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+
+<body>
+    <form id="upload" enctype="multipart/form-data" action="http://192.168.1.13:8888/upload" method="POST">
+        <input type="file" id='imgfile' name="imgfile" onchange="changeFile(this)">
+    </form>
+</body>
+
+</html>
+<script>
+    window.changeFile = function (_this) {
+        var upload = document.getElementById('upload')
+
+        var formData = new FormData()
+        var file = _this.files[0]
+        formData.append('imgfile', _this.files[0])
+        formData.append('name', '12')
+        // ajax(formData, 'http://192.168.1.13:8888/upload')
+        ajax(formData, 'http://192.168.1.13:8001/upload')
+        // var reader = new FileReader();
+        // reader.readAsArrayBuffer(file);
+        // reader.onload = function (evt) {
+        //     console.log(evt.target.result)
+        //     var buf = evt.target.result;
+        //     socket.send(buf)
+        // }
+    }
+    var ajax = function (data, url) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (/^2\d{2}/.test(xhr.status)) {
+                console.log('上传成功')
+            }
+        }
+        xhr.open('post', url);
+        // xhr.setRequestHeader('Content-Type', "multipart/form-data");//multipart/form-data
+        xhr.send(data);
+    }
+</script>
